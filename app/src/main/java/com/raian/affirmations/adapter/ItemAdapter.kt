@@ -1,6 +1,9 @@
 package com.raian.affirmations.adapter
 
 import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.raian.affirmations.DetailsActivityActivity
 import com.raian.affirmations.R
 import com.raian.affirmations.model.Affirmation
 
@@ -26,7 +30,6 @@ class ItemAdapter(private val context: Context,private val dataset: List<Affirma
 
     class ItemViewHolder(private val view: View):RecyclerView.ViewHolder(view){
         val textView : TextView = view.findViewById(R.id.item_title)
-        val textView2: TextView = view.findViewById(R.id.item_title2)
         val image: ImageView = view.findViewById(R.id.imageView)
     }
 
@@ -45,9 +48,19 @@ class ItemAdapter(private val context: Context,private val dataset: List<Affirma
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = dataset[position]
         holder.textView.text =  context.resources.getString(item.stringResourceId)
-        holder.textView2.text = context.resources.getString(item.stringResourceTwoId)
-        holder.image.setImageResource(item.imageResourceId)
+        val bitmap = BitmapFactory.decodeResource(context.resources, item.imageResourceId)
+        val resized = Bitmap.createScaledBitmap(bitmap, 200, 200, true)
+        holder.image.setImageBitmap(resized)
         Log.d("Main","This is in text: "+context.resources.getString(item.stringResourceId))
+        holder.image.setOnClickListener {
+            val intent = Intent(context, DetailsActivityActivity::class.java)
+//            intent.putExtra("string_value", item.stringResourceId.toString())
+//            intent.putExtra("image_value", item.imageResourceId.toString())
+            val player = Affirmation(item.stringResourceId,item.imageResourceId)
+            intent.putExtra("player",player)
+            context.startActivity(intent)
+        }
+
 
     }
     /**

@@ -1,8 +1,8 @@
 package com.raian.affirmations.model
 
+import java.io.Serializable
 
-/**
- * [Affirmation] is the data class to represent the Affirmation text and imageResourceId
- */
-
-data class Affirmation(val stringResourceId: Int, val stringResourceTwoId: Int, val imageResourceId: Int)
+data class Affirmation(
+    val stringResourceId: Int,
+    val imageResourceId: Int
+    ): Serializable
